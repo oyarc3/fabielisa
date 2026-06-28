@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Fabián y Elisa</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ffe3e3 0%, #fff5f5 100%);
+            color: #4a4a4a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+            text-align: center;
+            padding: 20px;
+        }
+        .card {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(254, 180, 180, 0.4);
+            max-width: 450px;
+            width: 100%;
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.5s ease;
+        }
+        .screen {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            animation: fadeIn 0.6s ease forwards;
+        }
+        .screen.active {
+            display: flex;
+        }
+        h1 {
+            color: #d63384;
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+        p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            color: #6c757d;
+        }
+        /* Botón Can-Am */
+        .canam-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s ease, filter 0.2s ease;
+            outline: none;
+            margin-top: 10px;
+        }
+        .canam-btn:hover {
+            transform: scale(1.1) cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .canam-btn:active {
+            transform: scale(0.95);
+        }
+        .canam-btn img {
+            width: 120px;
+            height: auto;
+            filter: drop-shadow(0px 5px 5px rgba(0,0,0,0.15));
+        }
+        /* Cajas de Regalo Pasos */
+        .gift-container {
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            margin-top: 20px;
+        }
+        .gift-container:active {
+            transform: scale(0.9);
+        }
+        .gift-img {
+            height: auto;
+            transition: all 0.3s ease;
+            filter: drop-shadow(0px 8px 10px rgba(0,0,0,0.1));
+        }
+        .counter-badge {
+            background-color: #d63384;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+        /* Imagen Final del Regalo */
+        .final-gift-img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes popIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <!-- Pantalla 1: Bienvenida -->
+        <div class="screen active" id="screen1">
+            <h1>¡Para Fabián y Elisa!</h1>
+            <p>Hoy comienza una de las etapas más hermosas de sus vidas. Nos emociona muchísimo acompañarlos en este viaje tan especial y ver cómo su amor sigue creciendo día con día. ¡Presionen el Can-Am para empezar!</p>
+            <button class="canam-btn" onclick="nextScreen(2)">
+                <!-- Reemplaza esta URL por el dibujo o icono de tu Can-Am -->
+                <img src="https://flaticon.com" alt="Can-Am Icon">
+            </button>
+        </div>
+
+        <!-- Pantalla 2: Mensaje Especial -->
+        <div class="screen" id="screen2">
+            <h1>Un Regalo Especial</h1>
+            <p>Porque sabemos lo importante que es guardar cada instante de este gran paso, queríamos prepararles una sorpresa que esté a la altura de su hermosa historia de amor...</p>
+            <button class="canam-btn" onclick="nextScreen(3)">
+                <img src="https://flaticon.com" alt="Can-Am Icon">
+            </button>
+        </div>
+
+        <!-- Pantalla 3: Revelación previa -->
+        <div class="screen" id="screen3">
+            <h1>Es por esto que...</h1>
+            <p>Queremos formar parte de sus recuerdos para siempre. Denle un último toque al Can-Am para descubrir lo que les tenemos preparado con todo nuestro cariño.</p>
+            <button class="canam-btn" onclick="nextScreen(4)">
+                <img src="https://flaticon.com" alt="Can-Am Icon">
+            </button>
+        </div>
+
+        <!-- Pantalla 4: Juego de las 5 Cajas de Regalo -->
+        <div class="screen" id="screen4">
+            <h1 id="gift-title">¡Un regalo para ustedes!</h1>
+            <p id="gift-instruction">¡Haz clic en el regalo para descubrir la sorpresa!</p>
+            
+            <div class="gift-container" onclick="shrinkGift()">
+                <!-- Icono base de caja de regalo -->
+                <img id="gift-image" class="gift-img" src="https://flaticon.com" alt="Caja de regalo" style="width: 200px;">
+            </div>
+            <div class="counter-badge" id="gift-counter">Capas restantes: 5</div>
+        </div>
+
+        <!-- Pantalla 5: Revelación de la Imagen Final -->
+        <div class="screen" id="screen5">
+            <h1>¡Sorpresa! 🎁</h1>
+            <p>Con todo nuestro amor, queremos regalarles las sesiones de fotos de su Civil y su Preboda para que guarden estos momentos mágicos eternamente.</p>
+            <!-- REEMPLAZA EL LINK DE ABAJO CON LA URL DE TU IMAGEN REAL -->
+            <img class="final-gift-img" src="https://unsplash.com" alt="Regalo Fotos Civil y Preboda">
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+        let giftClicks = 0;
+        // Tamaños sucesivos para simular que la caja se hace más pequeña en cada clic
+        const giftSizes = [160, 120, 90, 65, 45]; 
+
+        function nextScreen(screenNumber) {
+            // Desactiva la pantalla actual
+            document.getElementById(`screen${currentStep}`).classList.remove('active');
+            // Activa la siguiente pantalla
+            document.getElementById(`screen${screenNumber}`).classList.add('active');
+            currentStep = screenNumber;
+        }
+
+        function shrinkGift() {
+            const giftImg = document.getElementById('gift-image');
+            const counterBadge = document.getElementById('gift-counter');
+            const giftTitle = document.getElementById('gift-title');
+            
+            if (giftClicks < 4) {
+                // Reduce el tamaño de la caja de regalo
+                giftImg.style.width = giftSizes[giftClicks] + 'px';
+                giftClicks++;
+                counterBadge.innerText = `Capas restantes: ${5 - giftClicks}`;
+                giftTitle.innerText = "¡Sigue abriéndolo!";
+            } else {
+                // Al llegar al quinto clic, pasa a la pantalla final automáticamente
+                nextScreen(5);
+            }
+        }
+    </script>
+</body>
+</html>
