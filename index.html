@@ -11,6 +11,9 @@
             padding: 0;
         }
         body {
+            <!-- Archivo de música de fondo (reemplaza por tu enlace MP3) -->
+<audio id="background-music" src="https://soundhelix.com" loop></audio>
+
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #ffe3e3 0%, #fff5f5 100%);
             color: #4a4a4a;
@@ -179,12 +182,21 @@
         // Tamaños sucesivos para simular que la caja se hace más pequeña en cada clic
         const giftSizes = [160, 120, 90, 65, 45]; 
 
-        function nextScreen(screenNumber) {
-            // Desactiva la pantalla actual
-            document.getElementById(`screen${currentStep}`).classList.remove('active');
-            // Activa la siguiente pantalla
-            document.getElementById(`screen${screenNumber}`).classList.add('active');
-            currentStep = screenNumber;
+function nextScreen(screenNumber) {
+    // Intenta reproducir la música en el primer clic del usuario
+    const music = document.getElementById('background-music');
+    if (music && music.paused) {
+        music.play().catch(error => console.log("El navegador bloqueó el audio temporalmente:", error));
+    }
+
+    // Desactiva la pantalla actual
+    document.getElementById(`currentStep` ? `screen${currentStep}` : 'screen1').classList.remove('active');
+    
+    // Activa la siguiente pantalla
+    document.getElementById(`screen${screenNumber}`).classList.add('active');
+    currentStep = screenNumber;
+}
+
         }
 
         function shrinkGift() {
